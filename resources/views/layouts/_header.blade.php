@@ -32,7 +32,7 @@
                         <li><a href="{{route('foodcats.index') }}">查看菜品分类</a></li>
                         <li><a href="{{ route('foodcats.create') }}">添加菜品分类</a></li>
                         <li role="separator" class="divider"></li>
-                        {{--<li><a href="{{route('meals.index') }}">查看菜品</a></li>--}}
+                        <li><a href="{{route('meals.index') }}">查看菜品</a></li>
                         <li><a href="{{ route('meals.create') }}">添加菜品</a></li>
                     </ul>
                 </li>
