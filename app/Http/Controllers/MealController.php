@@ -14,11 +14,13 @@ class MealController extends Controller
     //必须先登录
     public function __construct()
     {
-        $this->middleware('auth',[
-            'except'=>[]
+        $this->middleware('auth', [
+            'except' => []
         ]);
+
     }
-    //添加菜品表单
+
+        //添加菜品表单
     public function create()
     {
         $foodcats=FoodCat::all();
@@ -81,11 +83,11 @@ class MealController extends Controller
         $foodcats=FoodCat::all();
         //检查是否有keywords参数,有,需要搜索,没有 不需要搜索
         $keywords = $request->keywords;
+        $wheres=[['shop_id',Auth::user()->shop_id]];
         if($keywords){
-            $meals = Meal::where("meal_name",'like',"%{$keywords}%")->paginate(3);
-        }else{
-            $meals = Meal::paginate(3);
+            $wheres[]=["meal_name",'like',"%{$keywords}%"];
         }
+        $meals = Meal::where($wheres)->paginate(3);
         return view('meals.index',compact('meals','keywords','foodcats','meal'));
     }
 

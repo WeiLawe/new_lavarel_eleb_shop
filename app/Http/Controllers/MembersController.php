@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Hash;
 class MembersController extends Controller
 {
 //    必须先登录
-    public function __construct()
-    {
-        $this->middleware('auth',[
-            'except'=>[]
-        ]);
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth',[
+//            'except'=>[]
+//        ]);
+//    }
     //添加店铺
     public function create(){
         $cats=Cat::all();
@@ -154,7 +154,7 @@ class MembersController extends Controller
     }
 
     //修改信息保存
-    public function update(Request $request,Member $member){
+    public function update(Request $request,Member $member,Shop $shop){
 //        dump($request);exit;
         $this->validate($request,
             [
@@ -181,8 +181,8 @@ class MembersController extends Controller
         }
 
         //保存商品店主信息
-        DB::transaction(function () use ($request,$fileName) {
-            DB::table('shops')->update(
+        DB::transaction(function () use ($request,$fileName,$member,$shop) {
+            $member->update(
                 [
                     'shop_name'=>$request->shop_name,
                     'shop_img'=>$fileName,
@@ -202,7 +202,7 @@ class MembersController extends Controller
                 ]
             );
 
-            DB::table('members')->update(
+            $shop->update(
                 [
                     'name'=>$request->name,
                     'email'=>$request->email,
