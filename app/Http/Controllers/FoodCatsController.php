@@ -67,10 +67,8 @@ class FoodCatsController extends Controller
     //查看菜品分类表
     public function index()
     {
-//        $id=Auth::user()->store_id;
-//        dump($id);exit;
-//        $foodcats=DB::table('food_cats')->where('store_info_id',$id)->get();
-        $foodcats=FoodCat::all();
+        $wheres=[['shop_id',Auth::user()->shop_id]];
+        $foodcats=FoodCat::where($wheres)->get();
         return view('foodcats.index',compact('foodcats'));
     }
 

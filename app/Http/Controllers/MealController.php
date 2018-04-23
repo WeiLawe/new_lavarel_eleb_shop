@@ -6,8 +6,10 @@ use App\FoodCat;
 use App\Handlers\ImageUploadHandler;
 use App\Meal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use OSS\Core\OssException;
 
 class MealController extends Controller
 {
@@ -23,7 +25,8 @@ class MealController extends Controller
         //添加菜品表单
     public function create()
     {
-        $foodcats=FoodCat::all();
+        $wheres=[['shop_id',Auth::user()->shop_id]];
+        $foodcats=FoodCat::where($wheres)->get();
         return view('meals.create',compact('foodcats'));
     }
 
@@ -52,18 +55,27 @@ class MealController extends Controller
         $uploder= new ImageUploadHandler();
         $res=$uploder->save($request->meal_img,'Meal/img',0);
         if($res){
-            $fileName=url($res['path']);
+            $fileName=($res['path']);
         }else{
             $fileName='';
         }
-
+//$fileName=http://shop.eleb.com/uploads/images/Meal/img/201804/23/0_1524456559_MNhWYpTv21.jpg
+//        dump($fileName);exit;
+        $client = App::make('aliyun-oss');
+        try{
+            $client->uploadFile('wei-eleb-shop','public'.$fileName,public_path($fileName));
+        }catch (OssException $e){
+            printf($e->getMessage() . "\n");
+//            return;
+        }
         //保存菜品信息
         DB::transaction(function () use ($request,$fileName) {
 
+            $url='https://wei-eleb-shop.oss-cn-beijing.aliyuncs.com/public';
             Meal::create(
                 [
                     'meal_name' => $request->meal_name,
-                    'meal_img' => $fileName,
+                    'meal_img' => $url.$fileName,
                     'meal_price' => $request->meal_price,
                     'description' => $request->description,
                     'food_cat_id'=>$request->food_cat_id,
@@ -94,7 +106,8 @@ class MealController extends Controller
     //修改菜品表单
     public function edit(Meal $meal)
     {
-        $foodcats=FoodCat::all();
+        $wheres=[['shop_id',Auth::user()->shop_id]];
+        $foodcats=FoodCat::where($wheres)->get();
         return view('meals.edit',compact('meal','foodcats'));
     }
 
@@ -126,6 +139,8 @@ class MealController extends Controller
         }else{
             $fileName='';
         }
+
+
         //保存菜品信息
         DB::transaction(function () use ($request,$fileName) {
 
@@ -147,7 +162,15 @@ class MealController extends Controller
     //查看菜品详情
     public function show(Meal $meal)
     {
-        $foodcats=FoodCat::all();
+        $wheres=[['shop_id',Auth::user()->shop_id]];
+        $foodcats=FoodCat::where($wheres)->get();
         return view("meals.show",compact('meal','foodcats'));
+    }
+
+    //删除菜品
+    public function destroy(Meal $meal)
+    {
+        $meal->delete();
+        echo 'success';
     }
 }

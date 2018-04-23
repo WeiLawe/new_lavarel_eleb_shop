@@ -36,3 +36,17 @@ Route::post('members/{member}/pwd_edit_save','MembersController@pwd_edit_save')-
 Route::get('login', 'SessionsController@create')->name('login');
 Route::post('login', 'SessionsController@store')->name('login');
 Route::delete('logout', 'SessionsController@destroy')->name('logout');
+
+//阿里云测试上传
+//E:\www\eleb_shop\public\uploads\images\Shop\img\201804\23\0_1524417167_4tgVRGXfyw.jpg
+//Route::get('/oss',function (){
+//    $client = App::make('aliyun-oss');
+//    try{
+//        $client->uploadFile('wei-eleb-shop', 'public\uploads\images\Shop\img\201804\23\0_1524417167_4tgVRGXfyw.jpg', public_path('uploads\images\Shop\img\201804\23\0_1524417167_4tgVRGXfyw.jpg'));
+//    } catch(\OSS\Core\OssException $e) {
+//        printf(__FUNCTION__ . ": FAILED\n");
+//        printf($e->getMessage() . "\n");
+//        return;
+//    }
+//    print(__FUNCTION__ . ": OK" . "\n");
+//});
