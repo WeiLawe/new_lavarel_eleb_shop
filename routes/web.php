@@ -24,6 +24,9 @@ Route::get('/about', 'StaticPagesController@about')->name('about');
 Route::resource('members','MembersController');
 //菜品分类资源
 Route::resource('foodcats','FoodCatsController');
+//活动查看及详情查询
+Route::get('activities','ActivitiesController@index')->name('activities.index');
+Route::get('activities/{activity}','ActivitiesController@show')->name('activities.show');
 
 //菜品资源
 Route::resource('meals','MealController');

@@ -16,6 +16,12 @@
             <ul class="nav navbar-nav">
                 <li ><a href="/">首页 <span class="sr-only">(current)</span></a></li>
                 <li><a href="{{ route('help') }}">帮助</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">活动管理<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{route('activities.index') }}">查看活动</a></li>
+                    </ul>
+                </li>
                 @guest
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">店铺管理<span class="caret"></span></a>
