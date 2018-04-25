@@ -40,6 +40,8 @@ Route::get('login', 'SessionsController@create')->name('login');
 Route::post('login', 'SessionsController@store')->name('login');
 Route::delete('logout', 'SessionsController@destroy')->name('logout');
 
+//图片上传
+Route::post('/upload','UploaderController@upload');
 //阿里云测试上传
 //E:\www\eleb_shop\public\uploads\images\Shop\img\201804\23\0_1524417167_4tgVRGXfyw.jpg
 //Route::get('/oss',function (){

@@ -41,6 +41,7 @@ class MealController extends Controller
                 'food_cat_id'=>'required',
                 'description'=>'required',
                 'tips'=>'required',
+                'meal_img'=>'required',
             ],
             [
                 'meal_name.required'=>'菜品名不能为空!',
@@ -48,40 +49,20 @@ class MealController extends Controller
                 'food_cat_id.required'=>'分类不能为空!',
                 'description.required'=>'菜品描述不能为空!',
                 'tips.required'=>'菜品建议不能为空!',
-
+                'meal_img.required'=>'菜品图片不能为空!',
             ]);
 
-        //保存上传logo
-        $uploder= new ImageUploadHandler();
-        $res=$uploder->save($request->meal_img,'Meal/img',0);
-        if($res){
-            $fileName=($res['path']);
-        }else{
-            $fileName='';
-        }
-//$fileName=http://shop.eleb.com/uploads/images/Meal/img/201804/23/0_1524456559_MNhWYpTv21.jpg
-//        dump($fileName);exit;
-        $client = App::make('aliyun-oss');
-        try{
-            $client->uploadFile('wei-eleb-shop','public'.$fileName,public_path($fileName));
-        }catch (OssException $e){
-            printf($e->getMessage() . "\n");
-//            return;
-        }
         //保存菜品信息
-        DB::transaction(function () use ($request,$fileName) {
-
-            $url='https://wei-eleb-shop.oss-cn-beijing.aliyuncs.com/public';
+        DB::transaction(function () use ($request) {
             Meal::create(
                 [
                     'meal_name' => $request->meal_name,
-                    'meal_img' => $url.$fileName,
+                    'meal_img' => $request->meal_img,
                     'meal_price' => $request->meal_price,
                     'description' => $request->description,
                     'food_cat_id'=>$request->food_cat_id,
                     'tips' => $request->tips,
                     'shop_id' => Auth::user()->shop_id,
-
                 ]
             );
         });
@@ -112,8 +93,9 @@ class MealController extends Controller
     }
 
     //修改信息更新
-    public function update(Request $request)
+    public function update(Request $request,Meal $meal)
     {
+//        dump($meal);die;
         $this->validate($request,
             [
                 'meal_name'=>'required',
@@ -130,30 +112,31 @@ class MealController extends Controller
                 'tips.required'=>'菜品建议不能为空!',
 
             ]);
-
-        //保存上传logo
-        $uploder= new ImageUploadHandler();
-        $res=$uploder->save($request->meal_img,'Meal/img',0);
-        if($res){
-            $fileName=url($res['path']);
-        }else{
-            $fileName='';
-        }
-
-
         //保存菜品信息
-        DB::transaction(function () use ($request,$fileName) {
+        DB::transaction(function () use ($request,$meal) {
+            if ($request->meal_img){
+                DB::table('meals')->where('id',$meal->id)->update(
+                    [
+                        'meal_name' => $request->meal_name,
+                        'meal_img' => $request->meal_img,
+                        'meal_price' => $request->meal_price,
+                        'description' => $request->description,
+                        'food_cat_id'=>$request->food_cat_id,
+                        'tips' => $request->tips,
+                    ]
+                );
+            }else{
+                DB::table('meals')->where('id',$meal->id)->update(
+                    [
+                        'meal_name' => $request->meal_name,
+                        'meal_price' => $request->meal_price,
+                        'description' => $request->description,
+                        'food_cat_id'=>$request->food_cat_id,
+                        'tips' => $request->tips,
+                    ]
+                );
+            }
 
-            DB::table('meals')->update(
-                [
-                    'meal_name' => $request->meal_name,
-                    'meal_img' => $fileName,
-                    'meal_price' => $request->meal_price,
-                    'description' => $request->description,
-                    'food_cat_id'=>$request->food_cat_id,
-                    'tips' => $request->tips,
-                ]
-            );
         });
         session()->flash('success','修改成功~');
         return redirect()->route('meals.index');
