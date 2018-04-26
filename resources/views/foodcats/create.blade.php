@@ -13,7 +13,7 @@
             </div>
 
             <div class="form-group">
-                <label>店铺简介</label>
+                <label>菜品分类简介</label>
                 <textarea name="description" maxlength="50" class="form-control" rows="3" placeholder="分类描述">{{ old('description') }}</textarea>
             </div>
 
