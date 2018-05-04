@@ -40,6 +40,16 @@
                         <li role="separator" class="divider"></li>
                         <li><a href="{{route('meals.index') }}">查看菜品</a></li>
                         <li><a href="{{ route('meals.create') }}">添加菜品</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{route('sales.count') }}">查看菜品销量</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">订单管理<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{route('orders.index') }}">查看订单</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{route('orders.count') }}">查看订单销量</a></li>
                     </ul>
                 </li>
                 @endauth

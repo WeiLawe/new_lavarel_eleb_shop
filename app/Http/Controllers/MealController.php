@@ -156,4 +156,5 @@ class MealController extends Controller
         $meal->delete();
         echo 'success';
     }
+
 }

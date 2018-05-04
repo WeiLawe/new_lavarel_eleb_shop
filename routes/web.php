@@ -55,3 +55,24 @@ Route::post('/upload','UploaderController@upload');
 //    }
 //    print(__FUNCTION__ . ": OK" . "\n");
 //});
+
+//订单管理 列表
+Route::get('orders','OrdersController@index')->name('orders.index');
+
+//取消订单
+Route::get('orders/{order}/cancel','OrdersController@cancel')->name('orders.cancel');
+
+//恢复订单
+Route::get('orders/{order}/back','OrdersController@back')->name('orders.back');
+
+//订单发货
+Route::get('orders/{order}/send','OrdersController@send')->name('orders.send');
+
+//查看订单详情
+Route::get('orders/{order}/show','OrdersController@show')->name('orders.show');
+
+//查看订单量统计
+Route::get('orders/count','OrdersController@count')->name('orders.count');
+
+//查看菜品销量统计
+Route::get('sales/count','SalesController@count')->name('sales.count');
