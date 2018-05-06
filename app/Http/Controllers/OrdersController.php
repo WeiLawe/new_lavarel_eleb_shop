@@ -49,6 +49,7 @@ class OrdersController extends Controller
     //发货
     public function send(Order $order)
     {
+
         $wheres=[['shop_id',Auth::user()->shop_id],['id',$order->id]];
         DB::table('orders')->where($wheres)->update(
             [
