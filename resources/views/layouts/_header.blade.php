@@ -22,6 +22,7 @@
                         <li><a href="{{route('activities.index') }}">查看活动</a></li>
                     </ul>
                 </li>
+
                 @guest
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">店铺管理<span class="caret"></span></a>
@@ -32,6 +33,12 @@
                 </li>
                 @endguest
                 @auth
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">抽奖活动管理<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{route('events.index') }}">查看抽奖活动</a></li>
+                    </ul>
+                </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">菜品及分类管理<span class="caret"></span></a>
                     <ul class="dropdown-menu">

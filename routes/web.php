@@ -76,3 +76,15 @@ Route::get('orders/count','OrdersController@count')->name('orders.count');
 
 //查看菜品销量统计
 Route::get('sales/count','SalesController@count')->name('sales.count');
+
+//报名列表
+Route::get('event_members','Event_membersController@index')->name('event_members.index');
+
+//报名
+Route::get('event_members','Event_membersController@apply')->name('event_members.apply');
+
+//抽奖活动管理
+Route::resource('events','EventsController');
+
+//查看中奖情况
+Route::get('events/{event}/result','EventsController@result')->name('events.result');
