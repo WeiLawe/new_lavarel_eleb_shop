@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cat;
+use App\Event;
 use App\Handlers\ImageUploadHandler;
 use App\Member;
 use App\Shop;
@@ -99,6 +100,7 @@ class MembersController extends Controller
     //显示该商铺详情
     public function show(Member $member){
         $cats=Cat::all();
+
         return view("members.show",compact('member','cats'));
     }
 

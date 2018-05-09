@@ -22,6 +22,6 @@
     @if($event->is_prize==1)
         已开奖 <a href="{{route('events.result',['event'=>$event])}}" class="btn btn-success">查看中奖情况</a>
     @else
-        <a href="{{route('event_members.apply',['event'=>$event])}}" class="btn btn-success">报名抽奖</a>
+        <a href="{{route('events.apply',['event'=>$event])}}" class="btn btn-success">报名抽奖</a>
     @endif
 @stop
